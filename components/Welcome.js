@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SignUp from "./SignUp";
+import SignIn from "./SignIn";
 
 class Welcome extends Component {
   render() {
@@ -8,6 +9,7 @@ class Welcome extends Component {
         <p>
           Put the default page you want to appear when arriving at thissite.com/
         </p>
+        <SignIn />
         <SignUp />
       </div>
     );

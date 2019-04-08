@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import { AUTHED_USER_QUERY } from "./User";
 
 const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -9,7 +10,7 @@ const SIGN_UP_MUTATION = gql`
     $email: String!
     $password: String!
   ) {
-    signup(email: $email, name: $name, password: $password) {
+    signUp(email: $email, name: $name, password: $password) {
       id
       email
       name
@@ -96,7 +97,6 @@ class SignUp extends Component {
       return false;
       // min length
     } else if (password.length < 9) {
-      console.log(password.length);
       this.setState({
         invalidAlert: "Password must be 9 characters or longer."
       });
@@ -106,36 +106,29 @@ class SignUp extends Component {
       //   this.setState({ invalidAlert: "Password must contain a number." });
       //   return false;
     } else {
-      console.log("hello");
       this.setState({ invalidAlert: "" });
 
       return true;
     }
   };
-  submitSignUp = () => {
-    if (this.prevalidatePasswords(this.state)) {
-      console.log("signup yo yo", this.state);
-    } else {
-      console.log("invalid yo", this.state);
-    }
-  };
+
   render() {
-    console.log(this.state.form);
     const { name, email, password, confirmPassword } = this.state.form;
     const { invalidAlert } = this.state;
     return (
       <Mutation
         mutation={SIGN_UP_MUTATION}
         variables={{ name, email, password }}
+        refetchQueries={[{ query: AUTHED_USER_QUERY }]}
       >
-        {(signup, { error, loading }) => {
+        {(signUp, { error, loading }) => {
           return (
             <FormStyled
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
                 if (this.prevalidatePasswords(this.state.form)) {
-                  const res = await signup();
+                  const res = await signUp();
                   const form = {
                     name: "",
                     email: "",
