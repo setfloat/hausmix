@@ -23,6 +23,9 @@ const Inner = styled.div`
   padding: 2rem;
 `;
 
+// setting font-size on the html doc to 10px allows rems to be set on all other font size that correspond to font sizes. as written below.
+// font-size: 15  == font-size: 1.5rem
+
 const GlobalStyle = createGlobalStyle`
     /*  add a font face section with font-family, src, format, font-weight, font-style */
     html {
@@ -35,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         padding: 0;
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 1.5rem;  
         line-height: 2;
         /* put font family here */
     }

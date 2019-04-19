@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
-import { AUTHED_USER_QUERY } from "./User";
+import PropTypes from "prop-types";
+import Router from "next/router";
+import { adopt } from "react-adopt";
 import {
   FormStyled,
   FieldsetStyled,
@@ -10,30 +11,113 @@ import {
   InputLabelStyled,
   InvalidAlert
 } from "./styles/formStyles";
+import { AUTHED_USER_QUERY } from "./User";
+// import { eventNames } from "cluster";
 
-const SIGN_UP_MUTATION = gql`
-  mutation SIGN_UP_MUTATION(
-    $name: String!
+//  <Mutation
+// mutation={ACCEPT_INVITE}
+// variables={{ household: { id: this.props.query.joinToken },  }}
+// ></Mutation>
+
+// acceptInvite: ({render}) => <Mutation
+// mutation={ACCEPT_INVITE}
+// variables={{ household: id: this.props.query.joinToken }}
+// >{render}</Mutation>
+
+const ACCEPT_INVITE_MUTATION = gql`
+  mutation ACCEPT_INVITE_MUTATION(
+    $inviteToken: String!
     $email: String!
     $password: String!
+    $name: String!
   ) {
-    signUp(email: $email, name: $name, password: $password) {
+    acceptInvite(
+      inviteToken: $inviteToken
+      email: $email
+      password: $password
+      name: $name
+    ) {
       id
-      email
       name
+      email
     }
   }
 `;
 
-class SignUp extends Component {
+const INVITE_QUERY = gql`
+  query INVITE_QUERY($inviteToken: String!) {
+    invite(inviteToken: $inviteToken) {
+      id
+      household {
+        id
+        name
+        houseMembers {
+          id
+          name
+        }
+        headsOfHouse {
+          id
+          name
+        }
+      }
+      invitedBy {
+        id
+        name
+      }
+      invitedEmail
+      invitedIsUser
+      inviteToken
+      inviteTokenExpiry
+    }
+  }
+`;
+
+const Composed = adopt({
+  invite: ({ render, inviteToken }) => {
+    return (
+      <>
+        {inviteToken && (
+          <Query query={INVITE_QUERY} variables={{ inviteToken }}>
+            {render}
+          </Query>
+        )}
+      </>
+    );
+  },
+  acceptInvite: (props) => {
+    return (
+      <Mutation
+        mutation={ACCEPT_INVITE_MUTATION}
+        variables={{
+          inviteToken: props.inviteToken,
+          email: props.invite.data.invite.invitedEmail,
+          password: props.password,
+          name: props.name
+        }}
+        awaitRefetchQueries
+        refetchQueries={[{ query: AUTHED_USER_QUERY }]}
+      >
+        {props.render}
+      </Mutation>
+    );
+  }
+});
+
+class JoinHousehold extends Component {
+  static propTypes = {
+    joinToken: PropTypes.string.isRequired
+  };
+
   state = {
     form: {
       name: "",
-      email: "",
       password: "",
       confirmPassword: ""
     },
-    invalidAlert: ""
+    invalidAlert: "",
+    resInvite: {
+      email: ""
+    }
   };
 
   updateInputState = (event) => {
@@ -76,22 +160,25 @@ class SignUp extends Component {
   };
 
   render() {
+    const { children, joinToken } = this.props;
     const { name, email, password, confirmPassword } = this.state.form;
-    const { invalidAlert } = this.state;
+    const { invalidAlert, resInvite } = this.state;
+
     return (
-      <Mutation
-        mutation={SIGN_UP_MUTATION}
-        variables={{ name, email, password }}
-        refetchQueries={[{ query: AUTHED_USER_QUERY }]}
+      <Composed
+        inviteToken={joinToken}
+        name={name}
+        email={resInvite.email}
+        password={password}
       >
-        {(signUp, { error, loading }) => {
+        {({ invite, acceptInvite }) => {
           return (
             <FormStyled
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
                 if (this.prevalidatePasswords(this.state.form)) {
-                  const res = await signUp();
+                  const res = await acceptInvite();
                   const form = {
                     name: "",
                     email: "",
@@ -100,10 +187,11 @@ class SignUp extends Component {
                   };
                   this.setState({ form });
                   console.log(res);
+                  Router.push("/");
                 }
               }}
             >
-              <h3>Sign Up!</h3>
+              <h3>{children}</h3>
               <FieldsetStyled>
                 <InputLabelStyled htmlFor="name">
                   Name
@@ -112,16 +200,6 @@ class SignUp extends Component {
                     name="name"
                     placeholder="Name"
                     value={name}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="email">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
                     onChange={this.updateInputState}
                   />
                 </InputLabelStyled>
@@ -153,9 +231,9 @@ class SignUp extends Component {
             </FormStyled>
           );
         }}
-      </Mutation>
+      </Composed>
     );
   }
 }
 
-export default SignUp;
+export default JoinHousehold;

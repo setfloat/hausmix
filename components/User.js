@@ -9,6 +9,14 @@ const AUTHED_USER_QUERY = gql`
       email
       name
       permissions
+      households {
+        id
+        name
+      }
+      householdsManaged {
+        id
+        name
+      }
     }
   }
 `;
