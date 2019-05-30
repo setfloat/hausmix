@@ -24,7 +24,7 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 - Webpack
 - Babel
 
-### Backend | [repo](https://linkedin.com/in/setfloat)
+### Backend | [repo](https://github.com/setfloat/hausmix_node)
 
 - Node.js
 - Prisma
