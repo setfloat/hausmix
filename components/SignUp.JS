@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import Router from "next/router";
@@ -26,7 +26,7 @@ const SIGN_UP_MUTATION = gql`
   }
 `;
 
-class SignUp extends React.Component {
+class SignUp extends Component {
   state = {
     form: {
       name: "",
