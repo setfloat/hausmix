@@ -1,49 +1,22 @@
 import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import PropTypes from "prop-types";
-import { FormStyled, FieldsetStyled, FlexRowEnd } from "./styles/formStyles";
-import { SubmitButtonStyled } from "./styles/buttons";
-import Error from "./ErrorMessage";
-import BetterInput from "./BetterInput";
+import { Mutation } from "react-apollo";
 import styled from "styled-components";
+import { CREATE_INVITE_MUTATION } from "./HouseholdInvite";
+import BetterInput from "./BetterInput";
+import { SubmitButtonStyled } from "./styles/buttons";
 
-// later add checkbox for 'is head of house' and pass the checkbox info with the mutation.
-
-const DashForm = styled(FormStyled)`
-  border: 1px solid rgba(140, 140, 140, 1);
-  padding: 2rem;
-  min-width: 320px;
-  width: 100vw;
-  max-width: 400px;
-  min-height: 140px;
-  max-height: 800px;
-  overflow: auto;
+const Fieldset = styled.fieldset`
+  border: 1px solid rgba(180, 180, 180, 1);
+  background-color: rgba(170, 240, 170, 0.5);
+  margin: 0.5rem;
 `;
 
-const CREATE_INVITE_MUTATION = gql`
-  mutation CREATE_INVITE_MUTATION(
-    $householdId: String!
-    $invitedEmail: String!
-  ) {
-    createInvite(householdId: $householdId, invitedEmail: $invitedEmail) {
-      id
-      household {
-        id
-        name
-      }
-      invitedBy {
-        id
-        name
-      }
-      invitedEmail
-      invitedIsUser
-      inviteStatus
-    }
-  }
+const BlueSubmit = styled(SubmitButtonStyled)`
+  background-color: rgba(162, 220, 246, 1);
 `;
 
-class HouseholdInvite extends Component {
+class MemberInvite extends Component {
   state = {
     invitedEmail: ""
   };
@@ -71,7 +44,7 @@ class HouseholdInvite extends Component {
       >
         {(createInvite, { data, error, loading }) => {
           return (
-            <DashForm
+            <form
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
@@ -87,7 +60,7 @@ class HouseholdInvite extends Component {
               }}
             >
               {success && <h3>{success}</h3>}
-              <FieldsetStyled>
+              <Fieldset>
                 <BetterInput
                   changeUpdate={this.updateInputState.bind(this)}
                   labelText="Invite a housemate!"
@@ -95,11 +68,11 @@ class HouseholdInvite extends Component {
                   heldInPlace="Email"
                 />
                 {error && <Error error={error} />}
-                <FlexRowEnd>
-                  <SubmitButtonStyled>Join my house!</SubmitButtonStyled>
-                </FlexRowEnd>
-              </FieldsetStyled>
-            </DashForm>
+                <div>
+                  <BlueSubmit>Join my house!</BlueSubmit>
+                </div>
+              </Fieldset>
+            </form>
           );
         }}
       </Mutation>
@@ -107,9 +80,8 @@ class HouseholdInvite extends Component {
   }
 }
 
-HouseholdInvite.propTypes = {
+MemberInvite.propTypes = {
   householdId: PropTypes.string.isRequired
 };
 
-export default HouseholdInvite;
-export { CREATE_INVITE_MUTATION };
+export default MemberInvite;

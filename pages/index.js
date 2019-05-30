@@ -1,11 +1,15 @@
 import Welcome from "../components/Welcome";
-// Chose not to use dashboard as that is more for logged in than not logged in. // TODO // Delete this line
+import styled from "styled-components";
 
-// pagination add page props and parseFloat info to Welcome component // TODO // Delete this line
-const Home = (props) => (
-  <div>
+const FlexCenterDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  min-width: 100%;
+`;
+const Home = () => (
+  <FlexCenterDiv>
     <Welcome />
-  </div>
+  </FlexCenterDiv>
 );
 
 export default Home;

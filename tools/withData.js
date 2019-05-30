@@ -3,7 +3,6 @@ import ApolloClient from "apollo-boost";
 import { endpoint } from "../config";
 import gql from "graphql-tag";
 
-// import { LOCAL_STATE_QUERY } from '../components/whatever';
 const LOCAL_STATE_QUERY = gql`
   query {
     agreedToCookies @client
@@ -21,16 +20,13 @@ function createClient({ headers }) {
         headers
       });
     },
-    // local data queries and mutations #cancelRedux
     clientState: {
       resolvers: {
         Mutation: {
           agreedToCookies(_, variables, { cache }) {
-            // read the agreedToCookies value from the cache
             const { agreedToCookies } = cache.readQuery({
               query: LOCAL_STATE_QUERY
             });
-            // Write the agreedToCookies State to the opposite
             const data = {
               data: { agreedToCookies: !agreedToCookies }
             };
@@ -47,3 +43,4 @@ function createClient({ headers }) {
 }
 
 export default withApollo(createClient);
+export { LOCAL_STATE_QUERY };

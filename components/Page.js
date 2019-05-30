@@ -8,7 +8,7 @@ const theme = {
   grey: "#444444",
   lightGrey: "#E4E4E4",
   offWhite: "rgba(240,240,240,1)",
-  maxWidth: "1000px",
+  maxWidth: "1100px",
   bs: "0 12px 24px 0 rgba(0, 0, 0, 0.9)"
 };
 
@@ -18,16 +18,11 @@ const StyledPage = styled.div`
 `;
 
 const Inner = styled.div`
-  max-width: ${(props) => props.theme.maxWidth};
   margin: 0 auto;
-  padding: 2rem;
 `;
 
-// setting font-size on the html doc to 10px allows rems to be set on all other font size that correspond to font sizes. as written below.
-// font-size: 15  == font-size: 1.5rem
-
 const GlobalStyle = createGlobalStyle`
-    /*  add a font face section with font-family, src, format, font-weight, font-style */
+    /* TODO add a font face section with font-family, src, format, font-weight, font-style */
     html {
         box-sizing: border-box;
         font-size: 10px;
@@ -40,11 +35,20 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         font-size: 1.5rem;  
         line-height: 2;
-        /* put font family here */
+        font-family: Sans-Serif;
+    }
+    button {
+      font-family: times;
+      :hover {
+        cursor: pointer;
+      }
     }
     a {
         text-decoration: none;
         color: ${theme.black};
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin: 0;
     }
 `;
 
@@ -64,3 +68,4 @@ class Page extends Component {
 }
 
 export default Page;
+export { theme };

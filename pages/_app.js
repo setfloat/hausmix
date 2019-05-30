@@ -3,7 +3,7 @@ import Page from "../components/Page";
 import { ApolloProvider } from "react-apollo";
 import withData from "../tools/withData";
 
-class choreFront extends App {
+class Hausmix extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
     if (Component.getInitialProps) {
@@ -29,4 +29,4 @@ class choreFront extends App {
   }
 }
 
-export default withData(choreFront);
+export default withData(Hausmix);

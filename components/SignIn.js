@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import Router from "next/router";
 import { AUTHED_USER_QUERY } from "./User";
 import Error from "./ErrorMessage";
-import {
-  FormStyled,
-  FieldsetStyled,
-  SubmitButtonStyled,
-  InputLabelStyled,
-  InvalidAlert
-} from "./styles/formStyles";
+import BetterInput from "./BetterInput";
+import { FormStyled, FieldsetStyled, FlexRowEnd } from "./styles/formStyles";
+import { SubmitButtonStyled } from "./styles/buttons";
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String!, $password: String!) {
@@ -34,6 +31,8 @@ class SignIn extends Component {
     });
   };
 
+  clearState = () => this.setState(() => ({ email: "", password: "" }));
+
   render() {
     const { email, password } = this.state;
 
@@ -51,35 +50,32 @@ class SignIn extends Component {
               onSubmit={async (event) => {
                 event.preventDefault();
                 const res = await signIn();
+                await this.clearState();
                 console.log(res);
-                this.setState({ email: "", password: "" });
+                if (Router.pathname === "/signin") {
+                  Router.push("/");
+                }
               }}
             >
               <h3>Sign In!</h3>
               <Error error={error} />
               <FieldsetStyled>
-                <InputLabelStyled htmlFor="email">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="password">
-                  Password
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Email"
+                  pieceOfState={{ email }}
+                />
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Password"
+                  pieceOfState={{ password }}
+                />
+                <FlexRowEnd>
+                  <SubmitButtonStyled type="submit">
+                    Sign In!
+                  </SubmitButtonStyled>
+                </FlexRowEnd>
               </FieldsetStyled>
-              <SubmitButtonStyled type="submit">Sign In!</SubmitButtonStyled>
             </FormStyled>
           );
         }}

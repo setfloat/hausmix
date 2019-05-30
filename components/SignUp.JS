@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import Router from "next/router";
 import { AUTHED_USER_QUERY } from "./User";
 import {
   FormStyled,
   FieldsetStyled,
-  SubmitButtonStyled,
-  InputLabelStyled,
-  InvalidAlert
+  InvalidAlert,
+  FlexRowEnd
 } from "./styles/formStyles";
+import { SubmitButtonStyled } from "./styles/buttons";
+import BetterInput from "./BetterInput";
 
 const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -41,7 +42,6 @@ class SignUp extends Component {
       const form = { ...this.state.form };
       form[event.target.name] = event.target.value;
       this.setState({
-        // [event.target.name]: event.target.value
         form,
         invalidAlert: ""
       });
@@ -53,26 +53,39 @@ class SignUp extends Component {
       });
     }
   };
-  prevalidatePasswords = ({ password, confirmPassword }) => {
-    // match
+
+  prevalidatePasswords = async ({ password, confirmPassword }) => {
     if (password !== confirmPassword) {
+      // match
       this.setState({ invalidAlert: "Passwords do not match" });
+
       return false;
+    } else if (password.length < 10) {
       // min length
-    } else if (password.length < 9) {
       this.setState({
-        invalidAlert: "Password must be 9 characters or longer."
+        invalidAlert: "Password must be 10 characters or longer."
       });
+
       return false;
-      // TODO: includes number
-      // } else if (password.match(/\d+/g) !== null) {
-      //   this.setState({ invalidAlert: "Password must contain a number." });
-      //   return false;
+    } else if ((await password.match(/\d+/g)) === null) {
+      // includes number
+      this.setState({ invalidAlert: "Password must contain a number." });
+
+      return false;
     } else {
       this.setState({ invalidAlert: "" });
 
       return true;
     }
+  };
+
+  clearState = () => {
+    this.setState(() => ({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    }));
   };
 
   render() {
@@ -90,66 +103,43 @@ class SignUp extends Component {
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
-                if (this.prevalidatePasswords(this.state.form)) {
+                if (await this.prevalidatePasswords(this.state.form)) {
                   const res = await signUp();
-                  const form = {
-                    name: "",
-                    email: "",
-                    password: "",
-                    confirmPassword: ""
-                  };
-                  this.setState({ form });
                   console.log(res);
+                  await this.clearState();
+                  Router.push("/");
                 }
               }}
             >
               <h3>Sign Up!</h3>
               <FieldsetStyled>
-                <InputLabelStyled htmlFor="name">
-                  Name
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={name}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="email">
-                  Email
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="password">
-                  Password
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="confirmPassword">
-                  Confirm Password
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={this.updateInputState}
-                  />
-                </InputLabelStyled>
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Name"
+                  pieceOfState={{ name }}
+                />
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Email"
+                  pieceOfState={{ email }}
+                />
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Password"
+                  pieceOfState={{ password }}
+                />
+                <BetterInput
+                  changeUpdate={this.updateInputState.bind(this)}
+                  labelText="Confirm Password"
+                  pieceOfState={{ confirmPassword }}
+                />
+                {invalidAlert.length > 0 && (
+                  <InvalidAlert>{invalidAlert}</InvalidAlert>
+                )}
+                <FlexRowEnd>
+                  <SubmitButtonStyled type="submit">Submit</SubmitButtonStyled>
+                </FlexRowEnd>
               </FieldsetStyled>
-              {invalidAlert.length > 0 && (
-                <InvalidAlert>{invalidAlert}</InvalidAlert>
-              )}
-              <SubmitButtonStyled type="submit">Submit</SubmitButtonStyled>
             </FormStyled>
           );
         }}

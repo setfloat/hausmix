@@ -12,6 +12,39 @@ const AUTHED_USER_QUERY = gql`
       households {
         id
         name
+        houseMembers {
+          id
+          name
+        }
+        headsOfHouse {
+          id
+          name
+        }
+        debts {
+          id
+          amount
+          settled
+          debtor {
+            id
+            name
+          }
+          creditor {
+            id
+            name
+          }
+        }
+        choreInstances {
+          id
+          name
+          currentAssigned {
+            id
+            name
+          }
+          completionStatus
+          deadline
+          startDate
+          instanceCost
+        }
       }
       householdsManaged {
         id

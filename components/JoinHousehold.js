@@ -4,25 +4,11 @@ import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import Router from "next/router";
 import { adopt } from "react-adopt";
-import {
-  FormStyled,
-  FieldsetStyled,
-  SubmitButtonStyled,
-  InputLabelStyled,
-  InvalidAlert
-} from "./styles/formStyles";
+import Head from "next/head";
+import { FormStyled, FieldsetStyled, InvalidAlert } from "./styles/formStyles";
+import { SubmitButtonStyled } from "./styles/buttons";
 import { AUTHED_USER_QUERY } from "./User";
-// import { eventNames } from "cluster";
-
-//  <Mutation
-// mutation={ACCEPT_INVITE}
-// variables={{ household: { id: this.props.query.joinToken },  }}
-// ></Mutation>
-
-// acceptInvite: ({render}) => <Mutation
-// mutation={ACCEPT_INVITE}
-// variables={{ household: id: this.props.query.joinToken }}
-// >{render}</Mutation>
+import BetterInput from "./BetterInput";
 
 const ACCEPT_INVITE_MUTATION = gql`
   mutation ACCEPT_INVITE_MUTATION(
@@ -125,7 +111,6 @@ class JoinHousehold extends Component {
       const form = { ...this.state.form };
       form[event.target.name] = event.target.value;
       this.setState({
-        // [event.target.name]: event.target.value
         form,
         invalidAlert: ""
       });
@@ -137,21 +122,25 @@ class JoinHousehold extends Component {
       });
     }
   };
-  prevalidatePasswords = ({ password, confirmPassword }) => {
-    // match
+
+  prevalidatePasswords = async ({ password, confirmPassword }) => {
     if (password !== confirmPassword) {
+      // match
       this.setState({ invalidAlert: "Passwords do not match" });
+
       return false;
+    } else if (password.length < 10) {
       // min length
-    } else if (password.length < 9) {
       this.setState({
-        invalidAlert: "Password must be 9 characters or longer."
+        invalidAlert: "Password must be 10 characters or longer."
       });
+
       return false;
-      // TODO: includes number
-      // } else if (password.match(/\d+/g) !== null) {
-      //   this.setState({ invalidAlert: "Password must contain a number." });
-      //   return false;
+    } else if ((await password.match(/\d+/g)) === null) {
+      // includes number
+      this.setState({ invalidAlert: "Password must contain a number." });
+
+      return false;
     } else {
       this.setState({ invalidAlert: "" });
 
@@ -161,79 +150,73 @@ class JoinHousehold extends Component {
 
   render() {
     const { children, joinToken } = this.props;
-    const { name, email, password, confirmPassword } = this.state.form;
+    const { name, password, confirmPassword } = this.state.form;
     const { invalidAlert, resInvite } = this.state;
 
     return (
-      <Composed
-        inviteToken={joinToken}
-        name={name}
-        email={resInvite.email}
-        password={password}
-      >
-        {({ invite, acceptInvite }) => {
-          return (
-            <FormStyled
-              method="post"
-              onSubmit={async (event) => {
-                event.preventDefault();
-                if (this.prevalidatePasswords(this.state.form)) {
-                  const res = await acceptInvite();
-                  const form = {
-                    name: "",
-                    email: "",
-                    password: "",
-                    confirmPassword: ""
-                  };
-                  this.setState({ form });
-                  console.log(res);
-                  Router.push("/");
-                }
-              }}
-            >
-              <h3>{children}</h3>
-              <FieldsetStyled>
-                <InputLabelStyled htmlFor="name">
-                  Name
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={name}
-                    onChange={this.updateInputState}
+      <>
+        <Head>
+          <title>Join Hausmix</title>
+        </Head>
+        <Composed
+          inviteToken={joinToken}
+          name={name}
+          email={resInvite.email}
+          password={password}
+        >
+          {({ invite, acceptInvite }) => {
+            return (
+              <FormStyled
+                method="post"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  if (this.prevalidatePasswords(this.state.form)) {
+                    const res = await acceptInvite();
+                    const form = {
+                      name: "",
+                      password: "",
+                      confirmPassword: ""
+                    };
+                    this.setState({ form });
+                    console.log(res);
+                    Router.push("/");
+                  }
+                }}
+              >
+                <h3>{children}</h3>
+                <FieldsetStyled>
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="Name"
+                    pieceOfState={{ name }}
                   />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="password">
-                  Password
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={this.updateInputState}
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="Password"
+                    pieceOfState={{ password }}
                   />
-                </InputLabelStyled>
-                <InputLabelStyled htmlFor="confirmPassword">
-                  Confirm Password
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={this.updateInputState}
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="Confirm Password"
+                    pieceOfState={{ confirmPassword }}
                   />
-                </InputLabelStyled>
-              </FieldsetStyled>
-              {invalidAlert.length > 0 && (
-                <InvalidAlert>{invalidAlert}</InvalidAlert>
-              )}
-              <SubmitButtonStyled type="submit">Submit</SubmitButtonStyled>
-            </FormStyled>
-          );
-        }}
-      </Composed>
+                </FieldsetStyled>
+                {invalidAlert.length > 0 && (
+                  <InvalidAlert>{invalidAlert}</InvalidAlert>
+                )}
+                <SubmitButtonStyled type="submit">Submit</SubmitButtonStyled>
+              </FormStyled>
+            );
+          }}
+        </Composed>
+      </>
     );
   }
 }
+
+JoinHousehold.propTypes = {
+  children: PropTypes.string.isRequired,
+  joinToken: PropTypes.string.isRequired
+};
 
 export default JoinHousehold;

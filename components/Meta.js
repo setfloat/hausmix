@@ -24,7 +24,7 @@ const Meta = () => (
     <link rel="manifest" href="/static/site.webmanifest" />
     {/* favicons provided by favicon.io/emoji-favicons/house-with-garden/ */}
     {/* <link rel="stylesheet" type="text/css" href="/static/nprogress.css" /> */}
-    <title>Chore Front</title>
+    <title>Hausmix</title>
   </Head>
 );
 

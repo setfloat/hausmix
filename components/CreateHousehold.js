@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import {
-  FormStyled,
-  FieldsetStyled,
-  SubmitButtonStyled,
-  InputLabelStyled,
-  InvalidAlert
-} from "./styles/formStyles";
+import styled from "styled-components";
+import { FormStyled, FieldsetStyled } from "./styles/formStyles";
+import { SubmitButtonStyled } from "./styles/buttons";
+import BetterInput from "./BetterInput";
+import { AUTHED_USER_QUERY } from "./User";
 
 const CREATE_HOUSEHOLD_MUTATION = gql`
   mutation CREATE_HOUSEHOLD_MUTATION($name: String!) {
@@ -16,6 +14,13 @@ const CREATE_HOUSEHOLD_MUTATION = gql`
       name
     }
   }
+`;
+
+const Centered = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-top: 4rem;
 `;
 
 class CreateHousehold extends Component {
@@ -28,38 +33,43 @@ class CreateHousehold extends Component {
     });
   };
 
+  clearState = () => {
+    this.setState(() => ({ name: "" }));
+  };
+
   render() {
     const { name } = this.state;
     return (
-      <Mutation mutation={CREATE_HOUSEHOLD_MUTATION} variables={{ name }}>
+      <Mutation
+        refetchQueries={[{ query: AUTHED_USER_QUERY }]}
+        mutation={CREATE_HOUSEHOLD_MUTATION}
+        variables={{ name }}
+      >
         {(createHousehold, { error, loading }) => {
           return (
-            <FormStyled
-              method="post"
-              onSubmit={async (event) => {
-                event.preventDefault();
-                console.log(this.state);
-                const res = await createHousehold();
-                console.log(res);
-                this.setState({ name: "" });
-              }}
-            >
-              <FieldsetStyled>
-                <InputLabelStyled>
-                  What do your household call your home?
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={name}
-                    onChange={this.updateInputState}
+            <Centered>
+              <FormStyled
+                method="post"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  console.log(this.state);
+                  const res = await createHousehold();
+                  console.log(res);
+                  await this.clearState();
+                }}
+              >
+                <FieldsetStyled>
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="What do you call your home?"
+                    pieceOfState={{ name }}
                   />
-                </InputLabelStyled>
-                <SubmitButtonStyled type="submit">
-                  Create your Chore fighting Household!
-                </SubmitButtonStyled>
-              </FieldsetStyled>
-            </FormStyled>
+                  <SubmitButtonStyled type="submit">
+                    Create your Chore fighting Household!
+                  </SubmitButtonStyled>
+                </FieldsetStyled>
+              </FormStyled>
+            </Centered>
           );
         }}
       </Mutation>
