@@ -37,6 +37,7 @@ const HOUSE_SINGLE_USER_DEBTS_QUERY = gql`
         name
       }
       from {
+        id
         name
       }
     }
