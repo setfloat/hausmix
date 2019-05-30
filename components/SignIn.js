@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import Router from "next/router";
 import { AUTHED_USER_QUERY } from "./User";
 import Error from "./ErrorMessage";
+import SignUp from "./SignUp";
 import BetterInput from "./BetterInput";
 import { FormStyled, FieldsetStyled, FlexRowEnd } from "./styles/formStyles";
 import { SubmitButtonStyled } from "./styles/buttons";
@@ -37,49 +37,52 @@ class SignIn extends Component {
     const { email, password } = this.state;
 
     return (
-      <Mutation
-        mutation={SIGN_IN_MUTATION}
-        variables={{ email, password }}
-        awaitRefetchQueries
-        refetchQueries={[{ query: AUTHED_USER_QUERY }]}
-      >
-        {(signIn, { error, loading }) => {
-          return (
-            <FormStyled
-              method="post"
-              onSubmit={async (event) => {
-                event.preventDefault();
-                const res = await signIn();
-                await this.clearState();
-                console.log(res);
-                if (Router.pathname === "/signin") {
-                  Router.push("/");
-                }
-              }}
-            >
-              <h3>Sign In!</h3>
-              <Error error={error} />
-              <FieldsetStyled>
-                <BetterInput
-                  changeUpdate={this.updateInputState.bind(this)}
-                  labelText="Email"
-                  pieceOfState={{ email }}
-                />
-                <BetterInput
-                  changeUpdate={this.updateInputState.bind(this)}
-                  labelText="Password"
-                  pieceOfState={{ password }}
-                />
-                <FlexRowEnd>
-                  <SubmitButtonStyled type="submit">
-                    Sign In!
-                  </SubmitButtonStyled>
-                </FlexRowEnd>
-              </FieldsetStyled>
-            </FormStyled>
-          );
-        }}
-      </Mutation>
+      <>
+        <Mutation
+          mutation={SIGN_IN_MUTATION}
+          variables={{ email, password }}
+          awaitRefetchQueries
+          refetchQueries={[{ query: AUTHED_USER_QUERY }]}
+        >
+          {(signIn, { error, loading }) => {
+            return (
+              <FormStyled
+                method="post"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  const res = await signIn();
+                  await this.clearState();
+                  console.log(res);
+                  if (Router.pathname === "/signin") {
+                    Router.push("/");
+                  }
+                }}
+              >
+                <h3>Sign In!</h3>
+                <Error error={error} />
+                <FieldsetStyled>
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="Email"
+                    pieceOfState={{ email }}
+                  />
+                  <BetterInput
+                    changeUpdate={this.updateInputState.bind(this)}
+                    labelText="Password"
+                    pieceOfState={{ password }}
+                  />
+                  <FlexRowEnd>
+                    <SubmitButtonStyled type="submit">
+                      Sign In!
+                    </SubmitButtonStyled>
+                  </FlexRowEnd>
+                </FieldsetStyled>
+              </FormStyled>
+            );
+          }}
+        </Mutation>
+        <SignUp />
+      </>
     );
   }
 }
