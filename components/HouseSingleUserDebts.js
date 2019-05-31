@@ -125,7 +125,7 @@ const SettleDebtsSubmit = ({
           }
         });
 
-        console.log(res);
+        // console.log(res);
       }
     }}
   >

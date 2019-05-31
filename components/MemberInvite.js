@@ -56,7 +56,7 @@ class MemberInvite extends Component {
                   success: "Invite Successfully Sent!"
                 });
                 this.successMessage();
-                console.log({ res });
+                // console.log({ res });
               }}
             >
               {success && <h3>{success}</h3>}

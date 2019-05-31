@@ -52,9 +52,8 @@ class CreateHousehold extends Component {
                 method="post"
                 onSubmit={async (event) => {
                   event.preventDefault();
-                  console.log(this.state);
                   const res = await createHousehold();
-                  console.log(res);
+                  // console.log(res);
                   await this.clearState();
                 }}
               >

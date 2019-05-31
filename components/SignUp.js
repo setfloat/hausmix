@@ -105,7 +105,7 @@ class SignUp extends Component {
                 event.preventDefault();
                 if (await this.prevalidatePasswords(this.state.form)) {
                   const res = await signUp();
-                  console.log(res);
+                  // console.log(res);
                   await this.clearState();
                   Router.push("/");
                 }

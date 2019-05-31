@@ -178,7 +178,7 @@ class JoinHousehold extends Component {
                       confirmPassword: ""
                     };
                     this.setState({ form });
-                    console.log(res);
+                    // console.log(res);
                     Router.push("/");
                   }
                 }}

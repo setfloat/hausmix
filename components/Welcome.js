@@ -16,11 +16,18 @@ const MaxWidthDiv = styled.div`
 `;
 
 class Welcome extends Component {
+  state = {
+    messageDisplayed: false
+  };
+
+  updateMessageDisplayed = () => {
+    this.setState({ messageDisplayed: true });
+  };
   render() {
     return (
       <User>
         {({ data: { loggedInUser } }) => {
-          if (endpoint !== `http://localhost:4445`) {
+          if (!this.state.messageDisplayed) {
             console.group();
             ["blue", "green", "brown", "orange", "aqua"].forEach((color) =>
               console.log(
@@ -29,6 +36,7 @@ class Welcome extends Component {
               )
             );
             console.groupEnd();
+            this.updateMessageDisplayed();
           }
           if (!loggedInUser) {
             return <Greet />;

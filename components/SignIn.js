@@ -51,7 +51,7 @@ class SignIn extends Component {
                 event.preventDefault();
                 const res = await signIn();
                 await this.clearState();
-                console.log(res);
+                // console.log(res);
                 if (Router.pathname === "/signin") {
                   Router.push("/");
                 }
