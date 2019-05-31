@@ -103,7 +103,6 @@ class MobNav extends Component {
   render() {
     const { navOpen } = this.state;
     const { navList, children } = this.props;
-    console.log(Router);
     return (
       <MobNavStyled>
         <MobNavUL>
