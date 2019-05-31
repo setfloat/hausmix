@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SignIn from "../components/SignIn";
-// import SignUp from "../components/SignUp";
+import SignUp from "../components/SignUp";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
 const SignInPage = () => (
   <StyledDiv>
     <SignIn />
-    {/* <SignUp /> */}
+    <SignUp />
   </StyledDiv>
 );
 
