@@ -3,9 +3,6 @@ import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage, res }) {
-    if (res) {
-      console.log(res);
-    }
     const sheet = new ServerStyleSheet();
     const page = renderPage((App) => (props) =>
       sheet.collectStyles(<App {...props} />)
