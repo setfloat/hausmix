@@ -5,7 +5,7 @@ import withData from "../tools/withData";
 
 class Hausmix extends App {
   static async getInitialProps({ Component, ctx }) {
-    console.log(window.location);
+    console.log(document.location);
     if (document.location.protocol !== "https:") {
       document.location.href =
         "https://www.hausmix.com" + document.location.pathname;
