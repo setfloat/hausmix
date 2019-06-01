@@ -7,6 +7,7 @@ import CreateHousehold from "./CreateHousehold";
 import CurrentHouseDash from "./CurrentHouseDash";
 import Greet from "./Greet";
 import PageHeader from "./PageHeader";
+import { LOCAL_STATE_QUERY } from "../tools/withData.js";
 
 const MaxWidthDiv = styled.div`
   max-width: 1100px;
@@ -14,12 +15,6 @@ const MaxWidthDiv = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-`;
-
-const LOCAL_STATE_QUERY = gql`
-  query {
-    deployedMessageStatus @client
-  }
 `;
 
 const MESSAGE_DEPLOYED_MUTATION = gql`
