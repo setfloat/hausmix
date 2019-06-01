@@ -12,11 +12,18 @@ const StyledDiv = styled.div`
     align-items: flex-start;
   }
 `;
-const SignInPage = () => (
-  <StyledDiv>
-    <SignIn />
-    <SignUp />
-  </StyledDiv>
-);
+const SignInPage = () => {
+  if (document.location.protocol !== "https:") {
+    document.location.href =
+      "https://www.hausmix.com" + document.location.pathname;
+  }
+
+  return (
+    <StyledDiv>
+      <SignIn />
+      <SignUp />
+    </StyledDiv>
+  );
+};
 
 export default SignInPage;

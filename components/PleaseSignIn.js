@@ -7,7 +7,6 @@ const PleaseSignIn = (props) => (
     {({ data, loading, error }, ...args) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error...</p>;
-      console.log(document.location);
       if (document.location.protocol !== "https:") {
         document.location.href =
           "https://www.hausmix.com" + document.location.pathname;
