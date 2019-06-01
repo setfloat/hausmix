@@ -32,11 +32,18 @@ const Composed = adopt({
 });
 
 class Welcome extends Component {
+  state = {
+    messaged: false
+  };
+
+  updateMessaged = () => this.setState(() => ({ messaged: true }));
+
   render() {
+    const { messaged } = this.state;
     return (
       <Composed>
         {({ messageDeployed, localState }) => {
-          if (!localState.deployedMessageStatus) {
+          if (!localState.deployedMessageStatus && !messaged) {
             console.group();
             ["blue", "green", "brown", "orange", "aqua"].forEach((color) =>
               console.log(
@@ -45,6 +52,7 @@ class Welcome extends Component {
               )
             );
             console.groupEnd();
+            this.updateMessaged();
             messageDeployed();
           }
 
