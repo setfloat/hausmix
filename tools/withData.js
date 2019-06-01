@@ -1,13 +1,6 @@
 import withApollo from "next-with-apollo";
 import ApolloClient from "apollo-boost";
 import { endpoint, prodEndpoint } from "../config";
-import gql from "graphql-tag";
-
-const LOCAL_STATE_QUERY = gql`
-  query {
-    deployedMessageStatus @client
-  }
-`;
 
 function createClient({ headers }) {
   return new ApolloClient({
@@ -19,26 +12,8 @@ function createClient({ headers }) {
         },
         headers
       });
-    },
-    clientState: {
-      resolvers: {
-        Mutation: {
-          messageDeployed(_, variables, { cache }) {
-            const data = {
-              data: { deployedMessageStatus: true }
-            };
-
-            cache.writeData(data);
-            return data;
-          }
-        }
-      },
-      defaults: {
-        deployedMessageStatus: false
-      }
     }
   });
 }
 
 export default withApollo(createClient);
-export { LOCAL_STATE_QUERY };
