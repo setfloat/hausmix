@@ -24,9 +24,11 @@ function createClient({ headers }) {
       resolvers: {
         Mutation: {
           messageDeployed(_, variables, { cache }) {
-            cache.writeData({
+            const data = {
               data: { deployedMessageStatus: true }
-            });
+            };
+
+            cache.writeData(data);
             return data;
           }
         }
