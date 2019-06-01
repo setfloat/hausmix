@@ -35,7 +35,10 @@ class SignIn extends Component {
 
   render() {
     const { email, password } = this.state;
-
+    if (document.location.protocol !== "https:") {
+      document.location.href =
+        "https://www.hausmix.com" + document.location.pathname;
+    }
     return (
       <Mutation
         mutation={SIGN_IN_MUTATION}
