@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { endOfToday, isBefore } from "date-fns";
 import ChoreInstanceCard from "./ChoreInstanceCard";
 import { ULNoPad } from "./styles/listythings";
 
@@ -34,24 +35,30 @@ class ChoresDash extends Component {
       choreInstances
     } = this.props.household;
 
+    const filteredChores = choreInstances.filter((choreInstance) => {
+      if (
+        choreInstance.completionStatus !== "COMPLETE" &&
+        isBefore(choreInstance.startDate, endOfToday())
+      ) {
+        return true;
+      }
+      return false;
+    });
+    if (!filteredChores.length) {
+      return null;
+    }
+
     return (
       <ChoresDashStyled>
         <IndentTitle>Scheduled Chores</IndentTitle>
         <ULNoPad>
-          {choreInstances
-            .filter((choreInstance) => {
-              if (choreInstance.completionStatus !== "COMPLETE") {
-                return true;
-              }
-              return false;
-            })
-            .map((choreInstance) => (
-              <ChoreInstanceCard
-                householdId={household.id}
-                choreInstance={choreInstance}
-                key={choreInstance.id}
-              />
-            ))}
+          {filteredChores.map((choreInstance) => (
+            <ChoreInstanceCard
+              householdId={household.id}
+              choreInstance={choreInstance}
+              key={choreInstance.id}
+            />
+          ))}
         </ULNoPad>
       </ChoresDashStyled>
     );

@@ -5,6 +5,11 @@ import withData from "../tools/withData";
 
 class Hausmix extends App {
   static async getInitialProps({ Component, ctx }) {
+    if (document.location.protocol !== "https:") {
+      document.location.href =
+        "https://www.hausmix.com" + document.location.pathname;
+    }
+
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -14,12 +19,12 @@ class Hausmix extends App {
     return { pageProps };
   }
 
-  componentDidMount() {
-    if (document.location.protocol !== "https:") {
-      document.location.href =
-        "https://www.hausmix.com" + document.location.pathname;
-    }
-  }
+  // componentDidMount() {
+  //   if (document.location.protocol !== "https:") {
+  //     document.location.href =
+  //       "https://www.hausmix.com" + document.location.pathname;
+  //   }
+  // }
 
   render() {
     const { Component, apollo, pageProps } = this.props;
