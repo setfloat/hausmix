@@ -23,12 +23,13 @@ function createClient({ headers }) {
     clientState: {
       resolvers: {
         Mutation: {
-          agreedToCookies(_, variables, { cache }) {
-            const { agreedToCookies } = cache.readQuery({
+          messageDeployed(_, variables, { cache }) {
+            const { deployedMessageStatus } = cache.readQuery({
               query: LOCAL_STATE_QUERY
             });
+
             const data = {
-              data: { agreedToCookies: !agreedToCookies }
+              data: { deployedMessageStatus: true }
             };
             cache.writeData(data);
             return data;
@@ -36,7 +37,7 @@ function createClient({ headers }) {
         }
       },
       defaults: {
-        agreedToCookies: false
+        deployedMessageStatus: false
       }
     }
   });

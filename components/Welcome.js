@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import gql from "graphql-tag";
+import { Mutation, Query } from "react-apollo";
 import User from "./User";
 import CreateHousehold from "./CreateHousehold";
 import CurrentHouseDash from "./CurrentHouseDash";
 import Greet from "./Greet";
-import { endpoint } from "../config";
 import PageHeader from "./PageHeader";
 
 const MaxWidthDiv = styled.div`
@@ -15,19 +16,32 @@ const MaxWidthDiv = styled.div`
   flex-direction: column;
 `;
 
-class Welcome extends Component {
-  state = {
-    messageDisplayed: false
-  };
+const LOCAL_STATE_QUERY = gql`
+  query {
+      deployedMessageStatus @client
+    }
+;
+  `;
 
-  updateMessageDisplayed = () => {
-    this.setState({ messageDisplayed: true });
-  };
+const MESSAGE_DEPLOYED_MUTATION = gql`
+  mutation {
+    messageDeployed @client
+  }
+`;
+
+const Composed = adopt({
+  toggleCart: ({ render }) => (
+    <Mutation mutation={MESSAGE_DEPLOYED_MUTATION}>{render}</Mutation>
+  ),
+  localState: ({ render }) => <Query query={LOCAL_STATE_QUERY}>{render}</Query>
+});
+
+class Welcome extends Component {
   render() {
     return (
-      <User>
-        {({ data: { loggedInUser } }) => {
-          if (!this.state.messageDisplayed) {
+      <Composed>
+        {({ messageDeployed, localState }) => {
+          if (!localState.deployedMessageStatus) {
             console.group();
             ["blue", "green", "brown", "orange", "aqua"].forEach((color) =>
               console.log(
@@ -36,33 +50,40 @@ class Welcome extends Component {
               )
             );
             console.groupEnd();
-            this.updateMessageDisplayed();
-          }
-          if (!loggedInUser) {
-            return <Greet />;
+            messageDeployed();
           }
 
-          const { households } = loggedInUser;
-          let houseId;
-          if (households.length) {
-            houseId = households[0].id;
-          }
           return (
-            <MaxWidthDiv>
-              {households.length === 0 && <CreateHousehold />}
-              {households.length === 1 && (
-                <>
-                  <PageHeader>🏡 {households[0].name}</PageHeader>
-                  <CurrentHouseDash
-                    loggedInUser={loggedInUser}
-                    householdId={households[0].id}
-                  />
-                </>
-              )}
-            </MaxWidthDiv>
+            <User>
+              {({ data: { loggedInUser } }) => {
+                if (!loggedInUser) {
+                  return <Greet />;
+                }
+
+                const { households } = loggedInUser;
+                let houseId;
+                if (households.length) {
+                  houseId = households[0].id;
+                }
+                return (
+                  <MaxWidthDiv>
+                    {households.length === 0 && <CreateHousehold />}
+                    {households.length === 1 && (
+                      <>
+                        <PageHeader>🏡 {households[0].name}</PageHeader>
+                        <CurrentHouseDash
+                          loggedInUser={loggedInUser}
+                          householdId={households[0].id}
+                        />
+                      </>
+                    )}
+                  </MaxWidthDiv>
+                );
+              }}
+            </User>
           );
         }}
-      </User>
+      </Composed>
     );
   }
 }
