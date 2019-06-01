@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
+import { adopt } from "react-adopt";
 import User from "./User";
 import CreateHousehold from "./CreateHousehold";
 import CurrentHouseDash from "./CurrentHouseDash";
