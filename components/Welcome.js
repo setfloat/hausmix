@@ -25,7 +25,7 @@ const MESSAGE_DEPLOYED_MUTATION = gql`
 `;
 
 const Composed = adopt({
-  toggleCart: ({ render }) => (
+  messageDeployed: ({ render }) => (
     <Mutation mutation={MESSAGE_DEPLOYED_MUTATION}>{render}</Mutation>
   ),
   localState: ({ render }) => <Query query={LOCAL_STATE_QUERY}>{render}</Query>
