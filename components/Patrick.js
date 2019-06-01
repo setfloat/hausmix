@@ -82,34 +82,45 @@ const FlexRowWrap = styled(FlexRow)`
   }
 `;
 
-export default () => (
-  <FlexRowWrap>
-    <ImgCon>
-      <ImgBorder
-        src="/static/devphoto.jpg"
-        alt="devphoto"
-        width="100%"
-        height="100%"
-      />
-    </ImgCon>
-    <CompContainer>
-      <FlexRowLeft>
-        <h1>Patrick Richardson</h1>
-      </FlexRowLeft>
-      <FlexRowLeft>
-        <h4>Frontend React Developer</h4>
-      </FlexRowLeft>
-      <FlexRowLeft>
-        <SpanTainer href="https://github.com/setfloat" target="_blank">
-          <Github />
-        </SpanTainer>
-        <SpanTainer href="https://linkedin.com/in/setfloat" target="_blank">
-          <LinkedIn />
-        </SpanTainer>
-        <SpanTainer target="_blank" href="https://github.com/setfloat">
-          <Twitter />
-        </SpanTainer>
-      </FlexRowLeft>
-    </CompContainer>
-  </FlexRowWrap>
-);
+export default () => {
+  console.group();
+  ["blue", "green", "brown", "orange", "aqua"].forEach((color) =>
+    console.log(
+      `%cFollow or hire the developer on twitter or github:  @setfloat`,
+      `color: ${color}`
+    )
+  );
+  console.groupEnd();
+
+  return (
+    <FlexRowWrap>
+      <ImgCon>
+        <ImgBorder
+          src="/static/devphoto.jpg"
+          alt="devphoto"
+          width="100%"
+          height="100%"
+        />
+      </ImgCon>
+      <CompContainer>
+        <FlexRowLeft>
+          <h1>Patrick Richardson</h1>
+        </FlexRowLeft>
+        <FlexRowLeft>
+          <h4>Frontend React Developer</h4>
+        </FlexRowLeft>
+        <FlexRowLeft>
+          <SpanTainer href="https://github.com/setfloat" target="_blank">
+            <Github />
+          </SpanTainer>
+          <SpanTainer href="https://linkedin.com/in/setfloat" target="_blank">
+            <LinkedIn />
+          </SpanTainer>
+          <SpanTainer target="_blank" href="https://github.com/setfloat">
+            <Twitter />
+          </SpanTainer>
+        </FlexRowLeft>
+      </CompContainer>
+    </FlexRowWrap>
+  );
+};

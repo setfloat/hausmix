@@ -15,26 +15,18 @@ const MaxWidthDiv = styled.div`
 `;
 
 class Welcome extends Component {
-  state = {
-    messaged: false
-  };
-
-  updateMessaged = () => this.setState(() => ({ messaged: true }));
-
   render() {
-    const { messaged } = this.state;
     return (
       <User>
-        {({ data: { loggedInUser } }) => {
+        {({ data: { loggedInUser }, loading, error }) => {
+          if (loading) <div>Loading...</div>;
+          if (error) <div>Error...</div>;
           if (!loggedInUser) {
             return <Greet />;
           }
 
           const { households } = loggedInUser;
-          let houseId;
-          if (households.length) {
-            houseId = households[0].id;
-          }
+
           return (
             <MaxWidthDiv>
               {households.length === 0 && <CreateHousehold />}
