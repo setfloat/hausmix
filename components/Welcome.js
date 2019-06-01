@@ -18,10 +18,9 @@ const MaxWidthDiv = styled.div`
 
 const LOCAL_STATE_QUERY = gql`
   query {
-      deployedMessageStatus @client
-    }
-;
-  `;
+    deployedMessageStatus @client
+  }
+`;
 
 const MESSAGE_DEPLOYED_MUTATION = gql`
   mutation {
