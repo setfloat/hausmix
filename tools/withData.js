@@ -24,14 +24,9 @@ function createClient({ headers }) {
       resolvers: {
         Mutation: {
           messageDeployed(_, variables, { cache }) {
-            const { deployedMessageStatus } = cache.readQuery({
-              query: LOCAL_STATE_QUERY
-            });
-
-            const data = {
+            cache.writeData({
               data: { deployedMessageStatus: true }
-            };
-            cache.writeData(data);
+            });
             return data;
           }
         }

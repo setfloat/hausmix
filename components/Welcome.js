@@ -52,8 +52,8 @@ class Welcome extends Component {
               )
             );
             console.groupEnd();
-            this.updateMessaged();
             messageDeployed();
+            this.updateMessaged();
           }
 
           return (
