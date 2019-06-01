@@ -151,7 +151,7 @@ const ChoreInstanceCard = ({
                     const res = await markComplete({
                       variables: { id }
                     });
-                    console.log(res);
+                    // console.log(res);
                   }}
                 >
                   Mark Complete
@@ -164,7 +164,7 @@ const ChoreInstanceCard = ({
                     const res = await thievingMarkComplete({
                       variables: { id }
                     });
-                    console.log(res);
+                    // console.log(res);
                   }}
                 >
                   I did this chore and I want to be PAID!
