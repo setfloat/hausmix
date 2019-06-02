@@ -18,14 +18,14 @@ class Welcome extends Component {
   render() {
     return (
       <User>
-        {({ data: { loggedInUser }, loading, error }) => {
+        {({ data, loading, error }) => {
           if (loading) <div>Loading...</div>;
           if (error) <div>Error...</div>;
-          if (!loggedInUser) {
+          if (!data.loggedInUser) {
             return <Greet />;
           }
 
-          const { households } = loggedInUser;
+          const { households } = data.loggedInUser;
 
           return (
             <MaxWidthDiv>
@@ -34,7 +34,7 @@ class Welcome extends Component {
                 <>
                   <PageHeader>🏡 {households[0].name}</PageHeader>
                   <CurrentHouseDash
-                    loggedInUser={loggedInUser}
+                    loggedInUser={data.loggedInUser}
                     householdId={households[0].id}
                   />
                 </>
