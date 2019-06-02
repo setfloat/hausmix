@@ -48,6 +48,21 @@ const MobNavUL = styled(NavUL)`
   min-width: 100%;
 `;
 
+const LinkButton = styled.button`
+  box-sizing: border-box;
+  background-color: rgba(220, 240, 240, 1);
+  border: 0.1rem solid rgba(120, 120, 120, 1);
+  border-radius: 8%;
+  padding: 1.1rem 1.4rem 1.1rem 1.4rem;
+  font-size: 1.5rem;
+  line-height: normal;
+  margin-left: 1rem;
+  :hover {
+    cursor: pointer;
+  }
+  color: #525252;
+`;
+
 const LinkLi = styled.li`
   box-sizing: border-box;
   background-color: rgba(220, 240, 240, 1);
@@ -65,31 +80,22 @@ const InnerButtonLinkLi = styled(LinkLi)`
   border-radius: 8%;
 `;
 
-const LinkButton = styled.button`
+const MobLinkLi = styled.li`
   box-sizing: border-box;
-  background-color: rgba(220, 240, 240, 1);
-  border: 0.1rem solid rgba(120, 120, 120, 1);
-  border-radius: 8%;
   padding: 1.1rem 1.4rem 1.1rem 1.4rem;
-  font-size: 1.5rem;
-  line-height: normal;
-  margin-left: 1rem;
-  :hover {
-    cursor: pointer;
-  }
-  color: #525252;
-`;
-
-const MobLinkLi = styled(LinkLi)`
   min-height: 100%;
   line-height: 15px;
-  border: none;
   border-top: 0.1rem solid rgba(250, 250, 250, 1);
   background-color: rgba(255, 255, 255, 0);
   margin: 0 1.5rem 0 0;
   :hover {
     background-color: rgba(220, 240, 240, 0.5);
+    cursor: pointer;
   }
+`;
+
+const MobTitleLi = styled(MobLinkLi)`
+  border: none;
 `;
 
 const MobOutLinkLi = styled(MobLinkLi)`
@@ -104,7 +110,6 @@ const NavBurger = styled.button`
   box-sizing: border-box;
   background-color: rgba(255, 255, 255, 0);
   border: 0.1rem solid rgba(120, 120, 120, 0);
-
   font-size: 1.5rem;
   line-height: 1.5rem;
   transform: rotate(90deg);
@@ -136,6 +141,7 @@ export {
   LinkLi,
   LinkButton,
   MobLinkLi,
+  MobTitleLi,
   NavBurger,
   FlexRow,
   BoringH3,

@@ -14,6 +14,7 @@ import {
   LinkLi,
   LinkButton,
   MobLinkLi,
+  MobTitleLi,
   NavBurger,
   FlexRow,
   BoringH3,
@@ -108,13 +109,13 @@ class MobNav extends Component {
         <MobNavUL>
           {!navOpen && (
             <FlexRow>
-              <MobLinkLi>
+              <MobTitleLi>
                 <BoringH3>
                   <Link href="/">
                     <a>🏡 Hausmix</a>
                   </Link>
                 </BoringH3>
-              </MobLinkLi>
+              </MobTitleLi>
               <NavBurger onClick={() => this.handleBurger(navOpen)}>
                 |||
               </NavBurger>
@@ -123,13 +124,13 @@ class MobNav extends Component {
           {navOpen && (
             <>
               <FlexRow>
-                <MobLinkLi>
+                <MobTitleLi>
                   <BoringH3>
                     <Link href="/">
                       <a>🏡 Hausmix</a>
                     </Link>
                   </BoringH3>
-                </MobLinkLi>
+                </MobTitleLi>
                 <NavBurger onClick={() => this.handleBurger(navOpen)}>
                   |||
                 </NavBurger>
