@@ -10,19 +10,13 @@ const Max = styled.div`
   overflow: hidden;
 `;
 
-class About extends Component {
-  render() {
-    return (
-      <Max>
-        <Head>
-          <title>Hausmix | About</title>
-        </Head>
-        <Project />
-        <Patrick />
-        <Skills />
-      </Max>
-    );
-  }
-}
-
-export default About;
+export default () => (
+  <Max>
+    <Head>
+      <title>Hausmix | About</title>
+    </Head>
+    <Project />
+    <Patrick />
+    <Skills />
+  </Max>
+);

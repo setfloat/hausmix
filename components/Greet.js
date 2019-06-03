@@ -9,6 +9,7 @@ const GreetWrapper = styled.div`
   min-width: 100vw;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const BannerSection = styled.section`
@@ -63,6 +64,9 @@ const TryNowButton = styled.button`
   }
 `;
 
+const AboutWrapper = styled.div`
+  max-width: 1100px;
+`;
 export default () => (
   <GreetWrapper>
     <BannerSection>
@@ -80,6 +84,8 @@ export default () => (
         </TryNowButton>
       </RestOfBanner>
     </BannerSection>
-    <About />
+    <AboutWrapper>
+      <About />
+    </AboutWrapper>
   </GreetWrapper>
 );
