@@ -6,8 +6,13 @@ import Router from "next/router";
 import { AUTHED_USER_QUERY } from "./User";
 import Error from "./ErrorMessage";
 import BetterInput from "./BetterInput";
-import { FormStyled, FieldsetStyled, FlexRowEnd } from "./styles/formStyles";
+import {
+  MargeBotFormStyled,
+  FieldsetStyled,
+  FlexRowEnd
+} from "./styles/formStyles";
 import { SubmitButtonStyled } from "./styles/buttons";
+import { Loading } from "./Loading";
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($email: String!, $password: String!) {
@@ -45,7 +50,7 @@ class SignIn extends Component {
       >
         {(signIn, { error, loading }) => {
           return (
-            <FormStyled
+            <MargeBotFormStyled
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
@@ -57,6 +62,7 @@ class SignIn extends Component {
                 }
               }}
             >
+              {loading && <Loading />}
               <h3>Sign In!</h3>
               <Error error={error} />
               <FieldsetStyled>
@@ -76,7 +82,7 @@ class SignIn extends Component {
                   </SubmitButtonStyled>
                 </FlexRowEnd>
               </FieldsetStyled>
-            </FormStyled>
+            </MargeBotFormStyled>
           );
         }}
       </Mutation>

@@ -11,6 +11,7 @@ import {
 } from "./styles/formStyles";
 import { SubmitButtonStyled } from "./styles/buttons";
 import BetterInput from "./BetterInput";
+import { Loading } from "./Loading";
 
 const SIGN_UP_MUTATION = gql`
   mutation SIGN_UP_MUTATION(
@@ -111,6 +112,7 @@ class SignUp extends Component {
                 }
               }}
             >
+              {loading && <Loading />}
               <h3>Sign Up!</h3>
               <FieldsetStyled>
                 <BetterInput

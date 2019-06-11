@@ -5,6 +5,7 @@ import CreateHousehold from "./CreateHousehold";
 import CurrentHouseDash from "./CurrentHouseDash";
 import Greet from "./Greet";
 import PageHeader from "./PageHeader";
+import { LoadingHousehold } from "./Loading";
 
 const MaxWidthDiv = styled.div`
   max-width: 1100px;
@@ -19,7 +20,7 @@ class Welcome extends Component {
     return (
       <User>
         {({ data, loading, error }) => {
-          if (loading) <div>Loading...</div>;
+          if (loading) <LoadingHousehold />;
           if (error) <div>Error...</div>;
           if (!data.loggedInUser) {
             return <Greet />;

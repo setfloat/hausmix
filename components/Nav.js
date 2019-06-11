@@ -31,34 +31,39 @@ const navLists = {
       { path: "/signin", displayText: "Sign Up" }
     ],
     mob: [
-      { path: "/", displayText: "Home" },
-      { path: "/about", displayText: "Meet the Developer" },
-      { path: "/signin", displayText: "Sign In" },
-      { path: "/signin", displayText: "Sign Up" }
+      { path: "/", displayText: "Home", disableable: false },
+      { path: "/about", displayText: "Meet the Developer", disableable: false },
+      { path: "/signin", displayText: "Sign In", disableable: false },
+      { path: "/signin", displayText: "Sign Up", disableable: false }
     ]
   },
   signedIn: {
     desk: [
       { path: "/", displayText: "Home" },
-      { path: "/chores", displayText: "Chores" },
-      { path: "/money", displayText: "Money" },
-      { path: "/add", displayText: "Add Chore" },
+      { path: "/chores", displayText: "Chores", disableable: true },
+      { path: "/money", displayText: "Money", disableable: true },
+      { path: "/add", displayText: "Add Chore", disableable: true },
       { path: "/about", displayText: "About" }
     ],
     mob: [
-      { path: "/", displayText: "Home" },
-      { path: "/add", displayText: "Add Chore" },
-      { path: "/chores", displayText: "Chores" },
-      { path: "/money", displayText: "Money" },
-      { path: "/invite", displayText: "Invite" },
-      { path: "/about", displayText: "Meet the Developer" }
+      { path: "/", displayText: "Home", disableable: false },
+      { path: "/add", displayText: "Add Chore", disableable: true },
+      { path: "/chores", displayText: "Chores", disableable: true },
+      { path: "/money", displayText: "Money", disableable: true },
+      { path: "/invite", displayText: "Invite", disableable: true },
+      { path: "/about", displayText: "Meet the Developer", disableable: false }
     ]
   }
 };
 
-const MobNavLink = ({ navOpen, handleBurger, item: { displayText, path } }) => {
+const MobNavLink = ({
+  disable,
+  navOpen,
+  handleBurger,
+  item: { displayText, path }
+}) => {
   return (
-    <MobLinkLi onClick={() => handleBurger(navOpen)}>
+    <MobLinkLi disable={disable || false} onClick={() => handleBurger(navOpen)}>
       <Link href={path}>
         <a>{displayText}</a>
       </Link>
@@ -66,28 +71,43 @@ const MobNavLink = ({ navOpen, handleBurger, item: { displayText, path } }) => {
   );
 };
 
-const MobNavLinks = ({ navList, navOpen, handleBurger }) => {
-  return navList.map((item) => (
-    <MobNavLink
-      key={item.displayText}
-      navOpen={navOpen}
-      handleBurger={handleBurger}
-      item={item}
-    />
-  ));
+const MobNavLinks = ({ navList, navOpen, handleBurger, noHouse }) => {
+  console.log(noHouse);
+  return navList.map((item) => {
+    return item.disableable && !noHouse ? null : (
+      <MobNavLink
+        key={item.displayText}
+        navOpen={navOpen}
+        handleBurger={handleBurger}
+        disable={item.disableable && noHouse}
+        item={item}
+      />
+    );
+  });
 };
 
-const DeskNavLink = ({ path, displayText }) => {
+const DeskNavLink = ({ path, displayText, disable }) => {
   return (
     <li>
-      <LinkButton onClick={() => Router.push(path)}>{displayText}</LinkButton>
+      <LinkButton
+        disabled={disable}
+        disable={disable}
+        onClick={() => Router.push(path)}
+      >
+        {displayText}
+      </LinkButton>
     </li>
   );
 };
 
-const DeskNavLinks = ({ navList }) => {
-  return navList.map(({ path, displayText }) => (
-    <DeskNavLink key={displayText} path={path} displayText={displayText} />
+const DeskNavLinks = ({ navList, noHouse }) => {
+  return navList.map(({ path, displayText, disableable }) => (
+    <DeskNavLink
+      key={displayText}
+      path={path}
+      disable={disableable && noHouse}
+      displayText={displayText}
+    />
   ));
 };
 
@@ -103,7 +123,7 @@ class MobNav extends Component {
 
   render() {
     const { navOpen } = this.state;
-    const { navList, children } = this.props;
+    const { navList, children, noHouse } = this.props;
     return (
       <MobNavStyled>
         <MobNavUL>
@@ -139,6 +159,7 @@ class MobNav extends Component {
                 navOpen={navOpen}
                 handleBurger={this.handleBurger.bind(this)}
                 navList={navList}
+                noHouse={noHouse}
               />
               {children}
             </>
@@ -153,7 +174,7 @@ const LeftFlexSelf = styled.span`
   flex-grow: 8;
 `;
 
-const DeskBar = ({ className, children, navList }) => (
+const DeskBar = ({ className, children, navList, noHouse }) => (
   <DeskNav className={className}>
     <LeftFlexSelf>
       <h1>
@@ -163,7 +184,7 @@ const DeskBar = ({ className, children, navList }) => (
       </h1>
     </LeftFlexSelf>
     <NavUL>
-      <DeskNavLinks navList={navList} />
+      <DeskNavLinks noHouse={noHouse} navList={navList} />
       {children}
     </NavUL>
   </DeskNav>
@@ -173,7 +194,9 @@ const GreetDesk = ({ className }) => (
   <DeskBar className={className} navList={navLists.signedOut.desk} />
 );
 
-const GreetMob = () => <MobNav navList={navLists.signedOut.mob} />;
+const GreetMob = () => (
+  <MobNav navList={navLists.signedOut.mob} noHouse={false} />
+);
 
 const Nav = () => (
   <User>
@@ -181,12 +204,22 @@ const Nav = () => (
       <>
         {loggedInUser && (
           <>
-            <DeskBar navList={navLists.signedIn.desk}>
+            <DeskBar
+              noHouse={
+                loggedInUser && !loggedInUser.households[0] ? true : false
+              }
+              navList={navLists.signedIn.desk}
+            >
               <InnerButtonLinkLi>
                 <SignOut />
               </InnerButtonLinkLi>
             </DeskBar>
-            <MobNav navList={navLists.signedIn.mob}>
+            <MobNav
+              noHouse={
+                loggedInUser && !loggedInUser.households[0] ? false : true
+              }
+              navList={navLists.signedIn.mob}
+            >
               <MobOutLinkLi>
                 <MobSignOut />
               </MobOutLinkLi>

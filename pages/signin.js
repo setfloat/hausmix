@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
+import { PageContainer, PageMax } from "./styles/PageStyles";
 
 const StyledDiv = styled.div`
   display: flex;
@@ -13,10 +14,14 @@ const StyledDiv = styled.div`
   }
 `;
 const SignInPage = () => (
-  <StyledDiv>
-    <SignIn />
-    <SignUp />
-  </StyledDiv>
+  <PageContainer>
+    <PageMax>
+      <StyledDiv>
+        <SignIn />
+        <SignUp />
+      </StyledDiv>
+    </PageMax>
+  </PageContainer>
 );
 
 export default SignInPage;

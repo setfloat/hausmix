@@ -156,7 +156,7 @@ class AssignChoreStateContained extends Component {
     return (
       <div>
         <Head>
-          <title>{household.name} | Assign Chore</title>
+          <title>{household ? household.name : "Hausmix"} | Assign Chore</title>
         </Head>
         <FormStyled
           method="post"
@@ -190,19 +190,21 @@ class AssignChoreStateContained extends Component {
           }}
         >
           <h3>Assigned housemates</h3>
-          {household.houseMembers.map((person) => {
-            return (
-              <InputLabelRowStyled key={person.id}>
-                <InputStyled
-                  type="checkbox"
-                  name={person.id}
-                  value={assigned[person.id]}
-                  onChange={(event) => this.updateAssignedState(event)}
-                />
-                {person.name}
-              </InputLabelRowStyled>
-            );
-          })}
+          <div>
+            {household.houseMembers.map((person) => {
+              return (
+                <InputLabelRowStyled key={person.id}>
+                  <InputStyled
+                    type="checkbox"
+                    name={person.id}
+                    value={assigned[person.id]}
+                    onChange={(event) => this.updateAssignedState(event)}
+                  />
+                  {person.name}
+                </InputLabelRowStyled>
+              );
+            })}
+          </div>
           {deadline && (
             <>
               <DateChanger

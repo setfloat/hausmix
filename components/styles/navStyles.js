@@ -59,8 +59,12 @@ const LinkButton = styled.button`
   margin-left: 1rem;
   :hover {
     cursor: pointer;
+    cursor: ${(props) => (props.disable ? "not-allowed" : "pointer")};
   }
   color: #525252;
+  color: ${(props) => (props.disable ? "rgba(170, 170, 170, 1)" : "#525252")};
+  border-color: ${(props) =>
+    props.disable ? "rgba(220, 220, 220, 1)" : "rgba(120, 120, 120, 1)"};
 `;
 
 const LinkLi = styled.li`

@@ -4,6 +4,7 @@ const FormStyled = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   border: 2px groove threedface;
   padding: 2rem;
   min-width: 320px;
@@ -14,10 +15,15 @@ const FormStyled = styled.form`
   overflow: auto;
 `;
 
+const MargeBotFormStyled = styled(FormStyled)`
+  margin-bottom: 2rem;
+`;
+
 const FieldsetStyled = styled.fieldset`
   display: flex;
   flex-direction: column;
   max-width: 400px;
+  width: 100%;
   border: none;
   padding: 0;
 `;
@@ -50,6 +56,7 @@ const FlexRowEnd = styled.div`
 
 export {
   FormStyled,
+  MargeBotFormStyled,
   FieldsetStyled,
   InputLabelStyled,
   InputLabelRowStyled,
