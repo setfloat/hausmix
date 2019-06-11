@@ -128,6 +128,7 @@ const CurrentFlex = styled.div`
 const CurrentCol = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 class CurrentHouseDash extends Component {
