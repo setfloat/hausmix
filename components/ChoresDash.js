@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { endOfToday, isBefore } from "date-fns";
-import ChoreInstanceCard from "./ChoreInstanceCard";
+import ChoreInstanceCard, { ClearSchedule } from "./ChoreInstanceCard";
 import { ULNoPad } from "./styles/listythings";
 
 const ChoresDashStyled = styled.div`
@@ -15,9 +15,15 @@ const ChoresDashStyled = styled.div`
   overflow: auto;
   background: rgba(220, 240, 240, 1);
   margin-bottom: 2rem;
+  order: 2;
   @media (max-width: 700px) {
     width: 100%;
+    min-width: 100%;
     max-height: 80vh;
+    order: -1;
+  }
+  @media all and (min-width: 701px) and (max-width: 773px) {
+    width: 432px;
   }
 `;
 
@@ -44,21 +50,22 @@ class ChoresDash extends Component {
       }
       return false;
     });
-    if (!filteredChores.length) {
-      return null;
-    }
 
     return (
       <ChoresDashStyled>
         <IndentTitle>Scheduled Chores</IndentTitle>
         <ULNoPad>
-          {filteredChores.map((choreInstance) => (
-            <ChoreInstanceCard
-              householdId={household.id}
-              choreInstance={choreInstance}
-              key={choreInstance.id}
-            />
-          ))}
+          {filteredChores.length ? (
+            filteredChores.map((choreInstance) => (
+              <ChoreInstanceCard
+                householdId={household.id}
+                choreInstance={choreInstance}
+                key={choreInstance.id}
+              />
+            ))
+          ) : (
+            <ClearSchedule />
+          )}
         </ULNoPad>
       </ChoresDashStyled>
     );

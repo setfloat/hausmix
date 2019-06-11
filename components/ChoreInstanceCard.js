@@ -74,6 +74,23 @@ const H6LessMargin = styled.h5`
   margin: 0;
 `;
 
+const CenterColumn = styled(FlexColumn)`
+  align-items: center;
+`;
+
+const Celebrate = styled.h1`
+  font-size: 10rem;
+`;
+
+const ClearSchedule = () => (
+  <LICard>
+    <CenterColumn>
+      <Celebrate>🎉</Celebrate>
+      <h4>Your chores are complete!</h4>
+    </CenterColumn>
+  </LICard>
+);
+
 const Composed = adopt({
   markComplete: (props) => {
     return (
@@ -131,7 +148,7 @@ const ChoreInstanceCard = ({
             <FlexColumn>
               <h5>{name}</h5>
               <h6>Deadline: {format(deadline, "dddd, MMMM Do")}</h6>
-              <h6>startDate: {format(startDate, "dddd, MMMM Do")}</h6>
+              <h6>Start date: {format(startDate, "dddd, MMMM Do")}</h6>
             </FlexColumn>
             {currentAssigned.map((person) => (
               <div key={person.id}>
@@ -184,4 +201,4 @@ ChoreInstanceCard.propTypes = {
 };
 
 export default ChoreInstanceCard;
-export { LICard };
+export { LICard, ClearSchedule };

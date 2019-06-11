@@ -77,6 +77,7 @@ const BigButton = styled(MediumButtonAlt)`
   /* margin: 1rem 0 1rem 1rem; */
   margin: 0.5rem 0.5rem 2rem 1rem;
   border: 1px solid rgba(140, 140, 140, 1);
+  order: 1;
   @media (max-width: 700px) {
     margin: 0 0 2rem 0;
     width: 94vw;

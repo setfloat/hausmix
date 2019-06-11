@@ -111,9 +111,10 @@ const Actions = styled.div`
   margin-bottom: 1rem;
   border: 1px solid rgba(160, 160, 160, 1);
   border-radius: 1.5rem;
+  order: 1;
   background-color: rgba(220, 240, 240, 1);
   @media (max-width: 700px) {
-    display: none;
+    min-width: 100vw;
   }
 `;
 
@@ -171,9 +172,7 @@ class CurrentHouseDash extends Component {
                   New Chore
                 </BigButton>
               </CurrentCol>
-              {choreInstances.length > 0 && (
-                <ChoresDash household={data.currentHousehold} />
-              )}
+              <ChoresDash household={data.currentHousehold} />
             </CurrentFlex>
           );
         }}
