@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import { adopt } from "react-adopt";
 import formatMoney from "../tools/formatMoney";
 import { AUTHED_USER_QUERY } from "./User";
+import { Loading } from "./Loading";
 import {
   FlexContainer,
   FlexRow,
@@ -158,7 +159,7 @@ class HouseSingleUserDebts extends Component {
           ) {
             return <div>error</div>;
           }
-          if (data.houseSingleUserDebts.loading) <div>Loading...</div>;
+          if (data.houseSingleUserDebts.loading) return <Loading />;
           let { houseSingleUserDebts } = data.houseSingleUserDebts.data;
           let { settleAllDebts } = data;
           if (

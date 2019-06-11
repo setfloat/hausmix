@@ -46,7 +46,7 @@ class Money extends Component {
     const { household, loggedInUser } = this.props;
     const { debts, name } = household;
     const { tabStatus, requery } = this.state;
-    if (!loggedInUser) <div>bug</div>;
+    if (!loggedInUser) return <div>Error</div>;
     return (
       <MoneyStyled>
         <Head>

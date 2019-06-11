@@ -4,11 +4,11 @@ import gql from "graphql-tag";
 import Router from "next/router";
 import Head from "next/head";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { endOfToday, addDays, startOfToday } from "date-fns";
 import { FormStyled, InputLabelRowStyled } from "./styles/formStyles";
 import { SubmitButtonStyled } from "./styles/buttons";
-
-import styled from "styled-components";
+import { Loading } from "./Loading";
 import DateChanger from "./DateChanger";
 import { AUTHED_USER_QUERY } from "./User";
 import { CURRENT_HOUSEHOLD_QUERY } from "./CurrentHouseDash";
@@ -234,14 +234,14 @@ class AssignChore extends Component {
     return (
       <Query query={CHORE_TEMPLATE_QUERY} variables={{ id: choreTemplateId }}>
         {({ data, loading, error }) => {
-          if (error) <div>{error}</div>;
-          if (loading) <div>...Loading...</div>;
+          if (error) return <div>{error.message}</div>;
+          if (loading) return <Loading />;
           const { choreTemplate } = data;
           return (
             <Mutation mutation={CREATE_ASSIGN_CHORE_MUTATION}>
               {(createChoreInstance, { data, loading, error }) => {
-                if (error) <div>{error}</div>;
-                if (loading) <div>...Loading...</div>;
+                if (error) return <div>{error.message}</div>;
+                if (loading) return <Loading />;
                 return (
                   <AssignChoreStateContained
                     createChoreInstance={createChoreInstance}

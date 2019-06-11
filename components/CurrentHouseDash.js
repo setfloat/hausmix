@@ -7,6 +7,7 @@ import styled from "styled-components";
 import ChoresDash from "./ChoresDash";
 import MemberInvite from "./MemberInvite";
 import { BigButton } from "./styles/buttons";
+import { LoadingHousehold } from "./Loading";
 
 const CURRENT_HOUSEHOLD_QUERY = gql`
   query CURRENT_HOUSEHOLD_QUERY($id: String!) {
@@ -140,7 +141,7 @@ class CurrentHouseDash extends Component {
     return (
       <Query query={CURRENT_HOUSEHOLD_QUERY} variables={{ id: householdId }}>
         {({ data, loading, error }) => {
-          if (loading) return <div>loading</div>;
+          if (loading) return <LoadingHousehold />;
           if (error) return <div>{error.message}</div>;
 
           const { houseMembers, choreInstances } = data.currentHousehold;

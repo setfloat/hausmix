@@ -20,8 +20,8 @@ class Welcome extends Component {
     return (
       <User>
         {({ data, loading, error }) => {
-          if (loading) <LoadingHousehold />;
-          if (error) <div>Error...</div>;
+          if (loading) return <LoadingHousehold />;
+          if (error) return <div>Error...</div>;
           if (!data.loggedInUser) {
             return <Greet />;
           }
