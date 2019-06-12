@@ -16,6 +16,15 @@ const BlueSubmit = styled(SubmitButtonStyled)`
   background-color: rgba(162, 220, 246, 1);
 `;
 
+const StyledError = styled.div`
+  font-size: 1.4rem;
+  color: red;
+  padding-left: 1rem;
+  border-left: solid 2px red;
+`;
+
+const EmailError = ({ message }) => <StyledError>{message}</StyledError>;
+
 class MemberInvite extends Component {
   state = {
     invitedEmail: ""
@@ -48,9 +57,8 @@ class MemberInvite extends Component {
               method="post"
               onSubmit={async (event) => {
                 event.preventDefault();
-                const res = await createInvite().catch((err) => {
-                  console.log(err);
-                });
+                const res = await createInvite();
+
                 this.setState({
                   invitedEmail: "",
                   success: "Invite Successfully Sent!"
@@ -67,7 +75,7 @@ class MemberInvite extends Component {
                   pieceOfState={{ invitedEmail }}
                   heldInPlace="Email"
                 />
-                {error && <Error error={error} />}
+                {error && <EmailError message={error.message} />}
                 <div>
                   <BlueSubmit>Join my house!</BlueSubmit>
                 </div>

@@ -170,7 +170,7 @@ class JoinHousehold extends Component {
                 method="post"
                 onSubmit={async (event) => {
                   event.preventDefault();
-                  if (this.prevalidatePasswords(this.state.form)) {
+                  if (await this.prevalidatePasswords(this.state.form)) {
                     const res = await acceptInvite();
                     const form = {
                       name: "",
