@@ -3,6 +3,7 @@ import { Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import Router from "next/router";
+import Link from "next/link";
 import { adopt } from "react-adopt";
 import Head from "next/head";
 import { FormStyled, FieldsetStyled, InvalidAlert } from "./styles/formStyles";
@@ -54,6 +55,7 @@ const INVITE_QUERY = gql`
       invitedIsUser
       inviteToken
       inviteTokenExpiry
+      inviteStatus
     }
   }
 `;
@@ -74,12 +76,6 @@ const Composed = adopt({
     return (
       <Mutation
         mutation={ACCEPT_INVITE_MUTATION}
-        variables={{
-          inviteToken: props.inviteToken,
-          email: props.invite.data.invite.invitedEmail,
-          password: props.password,
-          name: props.name
-        }}
         awaitRefetchQueries
         refetchQueries={[{ query: AUTHED_USER_QUERY }]}
       >
@@ -100,10 +96,7 @@ class JoinHousehold extends Component {
       password: "",
       confirmPassword: ""
     },
-    invalidAlert: "",
-    resInvite: {
-      email: ""
-    }
+    invalidAlert: ""
   };
 
   updateInputState = (event) => {
@@ -151,27 +144,44 @@ class JoinHousehold extends Component {
   render() {
     const { children, joinToken } = this.props;
     const { name, password, confirmPassword } = this.state.form;
-    const { invalidAlert, resInvite } = this.state;
+    const { invalidAlert } = this.state;
 
     return (
       <>
         <Head>
           <title>Join Hausmix</title>
         </Head>
-        <Composed
-          inviteToken={joinToken}
-          name={name}
-          email={resInvite.email}
-          password={password}
-        >
+        <Composed inviteToken={joinToken}>
           {({ invite, acceptInvite }) => {
+            if (
+              invite &&
+              invite.error &&
+              invite.error.message === "GraphQL error: No valid invite exists"
+            ) {
+              return (
+                <div style={{ textAlign: "center" }}>
+                  <p>The invite you have entered is invalid</p>
+                  <Link href="/">
+                    <a style={{ color: "blue" }}>Go back to hausmix.com</a>
+                  </Link>
+                </div>
+              );
+            }
+
             return (
               <FormStyled
                 method="post"
                 onSubmit={async (event) => {
                   event.preventDefault();
                   if (await this.prevalidatePasswords(this.state.form)) {
-                    const res = await acceptInvite();
+                    const res = await acceptInvite({
+                      variables: {
+                        inviteToken: joinToken,
+                        email: invite.data.invite.invitedEmail,
+                        password: password,
+                        name: name
+                      }
+                    });
                     const form = {
                       name: "",
                       password: "",
