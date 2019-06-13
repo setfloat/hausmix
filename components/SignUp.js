@@ -134,6 +134,7 @@ class SignUp extends Component {
                   changeUpdate={this.updateInputState.bind(this)}
                   labelText="Confirm Password"
                   pieceOfState={{ confirmPassword }}
+                  heldInPlace="Confirm Password"
                 />
                 {invalidAlert.length > 0 && (
                   <InvalidAlert>{invalidAlert}</InvalidAlert>

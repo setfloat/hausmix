@@ -116,7 +116,7 @@ export default () => {
           <SpanTainer href="https://linkedin.com/in/setfloat" target="_blank">
             <LinkedIn />
           </SpanTainer>
-          <SpanTainer target="_blank" href="https://github.com/setfloat">
+          <SpanTainer target="_blank" href="https://twitter.com/setfloat">
             <Twitter />
           </SpanTainer>
         </FlexRowLeft>

@@ -209,6 +209,7 @@ class JoinHousehold extends Component {
                     changeUpdate={this.updateInputState.bind(this)}
                     labelText="Confirm Password"
                     pieceOfState={{ confirmPassword }}
+                    heldInPlace="Confirm Password"
                   />
                 </FieldsetStyled>
                 {invalidAlert.length > 0 && (

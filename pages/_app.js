@@ -15,7 +15,7 @@ class Hausmix extends App {
   }
 
   componentDidMount() {
-    if (document.location.protocol !== "https:") {
+    if (document.location.origin !== "https://www.hausmix.com") {
       document.location.href =
         "https://www.hausmix.com" + document.location.pathname;
     }

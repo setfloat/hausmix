@@ -72,7 +72,7 @@ export default () => (
           </RowItem>
           <RowItem>
             <EmojiSpan>⏳</EmojiSpan>
-            <CenteredSpan>Do your chores before the deadline.</CenteredSpan>
+            <CenteredSpan>Finish your chores before the deadline.</CenteredSpan>
           </RowItem>
           <RowItem>
             <EmojiSpan>🔨</EmojiSpan>
