@@ -67,7 +67,7 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 - Household / Account deletion
 - Update Iconography
 
-## WalkThrough
+## Screenshots and GIF Walk-throughs
 
 <!-- [](./readme/hausmix_about.gif) -->
 
@@ -83,15 +83,15 @@ Desktop view of the About page.
 
 ***
 
-Chore page when there are no overdue chores.
-
-![No Overdue Chores](./readme/hausmix_no_chores.png)
-
-***
-
 Mobile view of Chores page with Scheduled chores.
 
 ![Scheduled Chores](./readme/hausmix_scheduled.png)
+
+***
+
+Mobile view of chores page when there are no overdue chores.
+
+![No Overdue Chores](./readme/hausmix_no_chores.png)
 
 ***
 
