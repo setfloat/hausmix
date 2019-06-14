@@ -66,7 +66,7 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 
 Desktop view of the dashboard when a user is logged in.
 
-[Dashboard](./readme/hausmix_main.png)
+[Dashboard](readme/hausmix_main.png)
 
 Desktop view of the About page.
 
