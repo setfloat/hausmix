@@ -34,10 +34,14 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 - MySQL
 - GraphQL
 - GraphQL Yoga
+- MySQL
 - bcryptjs
 - date-fns
 - JSONwebtoken
 - nodemailer
+- Amazon Simple Email Service (SES)
+- DNS redirects, MX records, and DKIM email keys
+- SSL certificates
 
 ### Future Features
 
