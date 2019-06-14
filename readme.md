@@ -60,6 +60,68 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 - Household / Account deletion
 - Update Iconography
 
+## WalkThrough
+
+<!-- [](./readme/hausmix_about.gif) -->
+
+Desktop view of the dashboard when a user is logged in.
+
+![Dashboard](readme/hausmix_main.png)
+
+***
+
+Desktop view of the About page.
+
+![About Page](readme/hausmix_about.png)
+
+***
+
+Chore page when there are no overdue chores.
+
+![No Overdue Chores](./readme/hausmix_no_chores.png)
+
+***
+
+Mobile view of Chores page with Scheduled chores.
+
+![Scheduled Chores](./readme/hausmix_scheduled.png)
+
+***
+
+Mobile view of the debts page with unpaid debts.
+
+![Debts page with unpaid Debts](./readme/hausmix_debts.png)
+
+***
+
+Mobile view of the debts page when all debts are settled.
+
+![Debts page with settled debts](./readme/hausmix_settled.png)
+
+***
+
+Desktop view of signup process.
+
+![Signup process gif](./readme/hausmix_signup.gif)
+
+***
+
+Desktop view of household creation process. Email verification email is sent when a household is created.
+
+![Household creation process gif](./readme/hausmix_create_house.gif)
+
+***
+
+Desktop view of sending an invitation to join the household. Email verification must be completed before the user can invite someone to join their household.  An invitation email is sent to the invited guest, where they can follow the link to sign up for an account and become a user.
+
+![Household invitation process gif](./readme/hausmix_invitation.gif)
+
+***
+
+Mobile view of creating a chore and view of the mobile nav menu. A chore can be scheduled to repeat at various frequencies, or be a one time event.  Multiple users can be assigned to the same chore. A start date and deadline is set so the chore is not displayed until the start date has passed. If the deadline has passed, the chore is converted to an overdue status and anyone may complete the chore. The original assignee(s) then split the value evenly and owe the person who completed the chore that debt.
+
+![Create chore process gif](./readme/hausmix_create_chore.gif)
+
 ## Authors
 
 - **Patrick Richardson** - _Author of all work, content, and ideas._ - [LinkedIn](https://linkedin.com/in/setfloat) | [Twitter](https://twitter.com/setfloat)
