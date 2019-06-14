@@ -25,7 +25,7 @@ const skills = [
       "Redux",
       "Styled Components",
       "AngularJS",
-      "Mobile & Desktop Design",
+      "Mobile & Desktop Responsive",
       "Gatsby",
       "Moment.js / date-fns"
     ]

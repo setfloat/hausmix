@@ -20,7 +20,7 @@ Hausmix helps with scheduling chores and incentivising their completion through 
 - Apollo Client
 - GraphQL
 - Styled Components
-- Mobile & Desktop design
+- Mobile & Desktop Responsive
 - date-fns
 - graphql-tag
 - prop-types
