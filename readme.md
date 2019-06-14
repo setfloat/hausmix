@@ -70,7 +70,7 @@ Desktop view of the dashboard when a user is logged in.
 
 Desktop view of the About page.
 
-[](./readme/hausmix_about.png)
+[](hausmix_about.png)
 
 Chore page when there are no overdue chores.
 
