@@ -110,13 +110,25 @@ export default () => {
           <h4>Frontend React Developer</h4>
         </FlexRowLeft>
         <FlexRowLeft>
-          <SpanTainer href="https://github.com/setfloat" target="_blank">
+          <SpanTainer
+            href="https://github.com/setfloat"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <Github />
           </SpanTainer>
-          <SpanTainer href="https://linkedin.com/in/setfloat" target="_blank">
+          <SpanTainer
+            href="https://linkedin.com/in/setfloat"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <LinkedIn />
           </SpanTainer>
-          <SpanTainer target="_blank" href="https://twitter.com/setfloat">
+          <SpanTainer
+            href="https://twitter.com/setfloat"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
             <Twitter />
           </SpanTainer>
         </FlexRowLeft>
