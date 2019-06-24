@@ -43,11 +43,13 @@ const navLists = {
       { path: "/chores", displayText: "Chores", disableable: true },
       { path: "/money", displayText: "Money", disableable: true },
       { path: "/add", displayText: "Add Chore", disableable: true },
-      { path: "/about", displayText: "About" }
+      { path: "/about", displayText: "About" },
+      { path: "/settings", displayText: "Settings", disableable: true }
     ],
     mob: [
       { path: "/", displayText: "Home", disableable: false },
       { path: "/add", displayText: "Add Chore", disableable: true },
+      { path: "/settings", displayText: "Settings", disableable: true },
       { path: "/chores", displayText: "Chores", disableable: true },
       { path: "/money", displayText: "Money", disableable: true },
       { path: "/invite", displayText: "Invite", disableable: true },
